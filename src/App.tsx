@@ -110,7 +110,7 @@ const awards = [
   {
     title: 'IGCSE Top in the World for Additional Mathematics',
     issuer: 'Cambridge International Examinations',
-    year: '2023 - 2025',
+    year: '2023',
     details: 'Perfect score for the May/June series. Within the top 0.00003% of students worldwide.',
   },
 ]

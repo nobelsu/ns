@@ -1437,7 +1437,11 @@ body.nav-collapsed .page {
 }
 
 /* Bio images + captions */
-.me-bio-markdown p:has(> img) {
+/* Bio images + captions
+   NOTE: We support both modern :has() and JS-added classes (.me-bio-photo*)
+   so that layout works reliably on mobile Safari and older browsers. */
+.me-bio-markdown p:has(> img),
+.me-bio-photo {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1445,7 +1449,8 @@ body.nav-collapsed .page {
   margin: 32px 0;
 }
 
-.me-bio-markdown p:has(> img) img {
+.me-bio-markdown p:has(> img) img,
+.me-bio-photo img {
   display: block;
   max-width: 320px;
   width: 100%;
@@ -1455,7 +1460,8 @@ body.nav-collapsed .page {
   object-fit: cover;
 }
 
-.me-bio-markdown p:has(> img) em {
+.me-bio-markdown p:has(> img) em,
+.me-bio-photo-caption {
   display: block;
   font-size: 13px;
   color: var(--text-muted);
@@ -1464,13 +1470,24 @@ body.nav-collapsed .page {
 }
 
 /* Alternate image / caption sides
-   Count paragraphs so extra text blocks still participate in the sequence */
-.me-bio-markdown p:has(> img):nth-of-type(odd) {
+   Count paragraphs so extra text blocks still participate in the sequence.
+   Also support JS-added classes so this works even where :has() is unsupported. */
+.me-bio-markdown p:has(> img):nth-of-type(odd),
+.me-bio-photo-right {
   flex-direction: row-reverse; /* image right, text left */
 }
 
-.me-bio-markdown p:has(> img):nth-of-type(even) {
+.me-bio-markdown p:has(> img):nth-of-type(even),
+.me-bio-photo-left {
   flex-direction: row; /* image left, text right */
+}
+
+.me-bio-photo-left-text {
+  text-align: left;
+}
+
+.me-bio-photo-right-text {
+  text-align: right;
 }
 
 /* Interests card grid */
@@ -2480,14 +2497,21 @@ footer {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  /* Stack bio image + caption vertically on smaller screens */
-  .me-bio-markdown p:has(> img) {
+  /* Stack bio image + caption vertically on smaller screens
+     Use both :has() and JS-added classes so this works on iOS Safari. */
+  .me-bio-markdown p:has(> img),
+  .me-bio-photo,
+  .me-bio-photo-right,
+  .me-bio-photo-left {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center; /* image centered, caption underneath */
   }
 
-  .me-bio-markdown p:has(> img) em {
+  .me-bio-markdown p:has(> img) em,
+  .me-bio-photo-caption {
     max-width: 100%;
+    text-align: center; /* caption centered below image */
+    margin-top: 8px;
   }
 
 
@@ -2579,6 +2603,7 @@ footer {
     margin-top: 8px;
     font-size: 13px;
     color: var(--text-muted);
+    text-align: center;
   }
 
   /* Stack project previews above details on mobile */
