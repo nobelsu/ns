@@ -2557,3 +2557,37 @@ footer {
     grid-template-columns: 1fr;
   }
 }
+
+@media (max-width: 640px) {
+  /* Ensure routed pages start below fixed mobile nav */
+  .route-wrapper {
+    padding-top: 52px;
+  }
+
+  /* Nudge sticky bio blocks down so they don't sit under nav */
+  .me-bio-rest-sticky {
+    top: 52px;
+  }
+
+  /* Extra safety for bio images + captions on the /me page */
+  .me-bio-photo,
+  .me-bio-photo-caption {
+    display: block;
+  }
+
+  .me-bio-photo-caption {
+    margin-top: 8px;
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+
+  /* Stack project previews above details on mobile */
+  .all-project-row {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .all-project-arrow {
+    justify-self: flex-end;
+  }
+}
