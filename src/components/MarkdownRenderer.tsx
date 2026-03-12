@@ -1,19 +1,18 @@
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import rehypeRaw from 'rehype-raw'
-import familyImg from '../assets/family.jpg'
-import friendsImg from '../assets/friends.jpg'
-import friendsUniImg from '../assets/friends_uni.jpg'
 
 interface MarkdownRendererProps {
   markdown: string
   className?: string
 }
 
-const imageMap: Record<string, string> = {
-  '/src/assets/family.jpg': familyImg,
-  '/src/assets/friends.jpg': friendsImg,
-  '/src/assets/friends_uni.jpg': friendsUniImg,
+// Rewrite old markdown image paths (which pointed into src/) to the new
+// static URLs served from public/assets.
+const imageSrcRewrite: Record<string, string> = {
+  '../assets/family.jpg': '/assets/family.jpg',
+  '../assets/friends.jpg': '/assets/friends.jpg',
+  '../assets/friends_uni.jpg': '/assets/friends_uni.jpg',
 }
 
 export default function MarkdownRenderer({ markdown, className }: MarkdownRendererProps) {
@@ -40,11 +39,11 @@ export default function MarkdownRenderer({ markdown, className }: MarkdownRender
           <blockquote className="markdown-quote" {...props} />
         ),
         img: ({ node, src, ...props }: any) => {
-          const resolvedSrc = src && imageMap[src]
+          const rewritten = src && imageSrcRewrite[src]
           return (
             // eslint-disable-next-line jsx-a11y/alt-text
             <img
-              src={resolvedSrc ?? src}
+              src={rewritten ?? src}
               loading="lazy"
               decoding="async"
               {...props}
@@ -81,5 +80,4 @@ export default function MarkdownRenderer({ markdown, className }: MarkdownRender
   if (!className) return rendered
   return <div className={className}>{rendered}</div>
 }
-
 

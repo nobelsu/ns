@@ -20,17 +20,17 @@ I'm a first child, with a younger brother and sister. My brother (Lucas) is just
 
 > You know damn well I tried teaching them how to code, much to their repulsion :(
 
-![Family photo](/src/assets/family.jpg)
+![Family photo](/assets/family.jpg)
 _This is a picture of my family! We took this last winter when we spent our Christmas in Chengdu, China. My parents are the two in the middle if it wasn't obvious. I think it's prettyyy clear that we're all NOT adopted_
 
 I'm also super grateful to have such incredible high school friends. Even though I moved schools midway, it was this group that helped my find my footing pretty quickly. A core memory for me was when we vacationed at Bali for our grad trip. Missing my babi guling so bad 🤧
 
-![Friends photo](/src/assets/friends.jpg)
+![Friends photo](/assets/friends.jpg)
 _Supa cool ppl... From left to right, top to bottom, we got Jensen, Winston, Cayden, Jacob, Jeffy, Eddy, Connor, Me, Maxwell, Ryan, Marcel, James, and Joel ☺️ (ps. MISS U JOEL HAHA)_
 
 My first year of university has also been an absolute BLAST. Oxford this, Oxford that, but it's mostly dilly dally twenty four seven! Yes we have problem sheets, yes the classes are hard, but I'd be lying if I said I didn't love my life right now... It really do be sunshine and rainbows (metaphorically of course LOLLL Britain could never)
 
-![Uni photo](/src/assets/friends_uni.jpg)
+![Uni photo](/assets/friends_uni.jpg)
 _We had a hotpot at Mr Wang's last term, and since then, I guess the name "hotpot house" kinda stuck?? Will be housing w these ppl next year! Again, George, Sophie, Greg, and Inaaya_
 
 --- 

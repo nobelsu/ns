@@ -2,12 +2,6 @@ import { useEffect, useRef, useState } from 'react'
 import type { CSSProperties } from 'react'
 import MarkdownRenderer from '../components/MarkdownRenderer'
 import { getBioThreeParts } from '../utils/bioFromMarkdown'
-import japaneseImg from '../assets/japanese.jpg'
-import cpImg from '../assets/cp.JPG'
-import sudokuImg from '../assets/sudoku.jpg'
-import bakingImg from '../assets/baking.jpg'
-import fencingImg from '../assets/fencing.jpg'
-import questImg from '../assets/quest.JPG'
 
 // ─── Spotify ──────────────────────────────────────────────────────────────────
 
@@ -112,32 +106,32 @@ const interests = [
   {
     name: 'Japanese literature',
     note: 'Murakami numba one',
-    image: japaneseImg, // e.g. '/images/books.jpg'
+    image: '/assets/japanese.jpg',
   },
   {
     name: 'Competitive programming',
     note: 'Gonna be on the CF grind this summer',
-    image: cpImg, // e.g. '/images/comp-prog.jpg'
+    image: '/assets/cp.jpg',
   },
   {
     name: 'Sudoku',
     note: "LOWKEY meditative",
-    image: sudokuImg, // e.g. '/images/sudoku.jpg'
+    image: '/assets/sudoku.jpg',
   },
   {
     name: 'Baking',
     note: "Specifically baguettes. (I promise I'm learning!!)",
-    image: bakingImg, // e.g. '/images/baguette.jpg'
+    image: '/assets/baking.jpg',
   },
   {
     name: 'Fencing',
     note: 'Might overtake badminton as my fav sport',
-    image: fencingImg, // e.g. '/images/chess.jpg'
+    image: '/assets/fencing.jpg',
   },
   {
     name: 'Side-quests??',
     note: "One day I'll finish the storybook. One day...",
-    image: questImg, // e.g. '/images/storybook.jpg'
+    image: '/assets/quest.jpg',
   },
 ]
 
