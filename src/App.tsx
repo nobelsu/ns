@@ -7,6 +7,7 @@ import Hobbies from './pages/Hobbies'
 import Project from './pages/Project'
 import Projects from './pages/Projects'
 import WorkGraph from './components/WorkGraph'
+import profileImg from './assets/profile.jpg'
 
 // ─── Stars ─────────────────────────────────────────────────────────────────────
 
@@ -402,7 +403,7 @@ function About() {
       <div className="about-grid">
         <div className="about-photo" data-reveal style={{ '--i': 1 } as CSSProperties}>
           <img
-            src="/src/assets/profile.jpg"
+            src={profileImg}
             alt="Placeholder portrait"
             className="about-photo-img"
           />

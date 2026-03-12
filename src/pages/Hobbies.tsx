@@ -2,6 +2,12 @@ import { useEffect, useRef, useState } from 'react'
 import type { CSSProperties } from 'react'
 import MarkdownRenderer from '../components/MarkdownRenderer'
 import { getBioThreeParts } from '../utils/bioFromMarkdown'
+import japaneseImg from '../assets/japanese.jpg'
+import cpImg from '../assets/cp.JPG'
+import sudokuImg from '../assets/sudoku.jpg'
+import bakingImg from '../assets/baking.jpg'
+import fencingImg from '../assets/fencing.jpg'
+import questImg from '../assets/quest.JPG'
 
 // ─── Spotify ──────────────────────────────────────────────────────────────────
 
@@ -106,32 +112,32 @@ const interests = [
   {
     name: 'Japanese literature',
     note: 'Murakami numba one',
-    image: '/src/assets/japanese.jpg', // e.g. '/images/books.jpg'
+    image: japaneseImg, // e.g. '/images/books.jpg'
   },
   {
     name: 'Competitive programming',
     note: 'Gonna be on the CF grind this summer',
-    image: '/src/assets/cp.jpg', // e.g. '/images/comp-prog.jpg'
+    image: cpImg, // e.g. '/images/comp-prog.jpg'
   },
   {
     name: 'Sudoku',
     note: "LOWKEY meditative",
-    image: '/src/assets/sudoku.jpg', // e.g. '/images/sudoku.jpg'
+    image: sudokuImg, // e.g. '/images/sudoku.jpg'
   },
   {
     name: 'Baking',
     note: "Specifically baguettes. (I promise I'm learning!!)",
-    image: '/src/assets/baking.jpg', // e.g. '/images/baguette.jpg'
+    image: bakingImg, // e.g. '/images/baguette.jpg'
   },
   {
     name: 'Fencing',
     note: 'Might overtake badminton as my fav sport',
-    image: '/src/assets/fencing.jpg', // e.g. '/images/chess.jpg'
+    image: fencingImg, // e.g. '/images/chess.jpg'
   },
   {
     name: 'Side-quests??',
     note: "One day I'll finish the storybook. One day...",
-    image: '/src/assets/quest.jpg', // e.g. '/images/storybook.jpg'
+    image: questImg, // e.g. '/images/storybook.jpg'
   },
 ]
 
@@ -319,7 +325,14 @@ export default function Hobbies() {
             >
               <div className="me-interest-img">
                 {item.image
-                  ? <img src={item.image} alt={item.name} />
+                  ? (
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                      loading="lazy"
+                      decoding="async"
+                    />
+                    )
                   : <span className="me-interest-img-placeholder" />
                 }
               </div>

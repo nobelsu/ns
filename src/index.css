@@ -799,21 +799,21 @@ body.nav-collapsed .page {
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  border: 1px solid var(--border-soft);
+  border: 1px solid color-mix(in srgb, var(--border) 65%, transparent);
   color: var(--text-muted);
-  background: color-mix(in srgb, var(--bg) 70%, var(--border-soft));
+  background: color-mix(in srgb, var(--bg) 82%, var(--border) 18%);
 }
 
 .exp-tag-current {
-  color: #22c55e;
-  border-color: color-mix(in srgb, #22c55e 45%, var(--border-soft));
-  background: color-mix(in srgb, #22c55e 9%, var(--bg));
+  color: #4ecdc4;
+  border-color: color-mix(in srgb, #4ecdc4 55%, var(--border));
+  background: color-mix(in srgb, #4ecdc4 14%, var(--bg));
 }
 
 .exp-tag-incoming {
-  color: #f97316;
-  border-color: color-mix(in srgb, #f97316 45%, var(--border-soft));
-  background: color-mix(in srgb, #f97316 9%, var(--bg));
+  color: #a78bfa;
+  border-color: color-mix(in srgb, #a78bfa 55%, var(--border));
+  background: color-mix(in srgb, #a78bfa 14%, var(--bg));
 }
 
 .exp-details {
