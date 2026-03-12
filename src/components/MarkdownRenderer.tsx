@@ -13,10 +13,10 @@ export default function MarkdownRenderer({ markdown, className }: MarkdownRender
       remarkPlugins={[remarkGfm]}
       rehypePlugins={[rehypeRaw]}
       components={{
-        ul: ({ node, ordered, ...props }) => (
+        ul: ({ node, ...props }) => (
           <ul className="markdown-list markdown-list-unordered" {...props} />
         ),
-        ol: ({ node, ordered, ...props }) => (
+        ol: ({ node, ...props }) => (
           <ol className="markdown-list markdown-list-ordered" {...props} />
         ),
         li: ({ node, children, ...props }) => (
