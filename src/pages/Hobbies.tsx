@@ -181,7 +181,6 @@ export default function Hobbies() {
 
     containers.forEach(container => {
       const imgs = Array.from(container.querySelectorAll<HTMLImageElement>('img'))
-      let photoIndex = 0
 
       imgs.forEach(img => {
         const imgParagraph = img.closest('p')
@@ -191,20 +190,24 @@ export default function Hobbies() {
           ? imgParagraph.nextElementSibling
           : null
 
+        // Captions in `bio.md` are written as `_caption_` which renders as:
+        // <p><em>caption</em></p>
+        // Move the <em> into the image paragraph so it can be reliably placed
+        // underneath the image on all breakpoints/browsers.
+        const captionEm =
+          captionParagraph?.children.length === 1 &&
+          captionParagraph.firstElementChild instanceof HTMLElement &&
+          captionParagraph.firstElementChild.tagName === 'EM'
+            ? captionParagraph.firstElementChild
+            : null
+
         imgParagraph.classList.add('me-bio-photo')
-        captionParagraph?.classList.add('me-bio-photo-caption')
 
-        if (photoIndex % 2 === 0) {
-          // First, third, ... image: image on the right, text on the left
-          imgParagraph.classList.add('me-bio-photo-right')
-          captionParagraph?.classList.add('me-bio-photo-left-text')
-        } else {
-          // Second, fourth, ... image: image on the left, text on the right
-          imgParagraph.classList.add('me-bio-photo-left')
-          captionParagraph?.classList.add('me-bio-photo-right-text')
+        if (captionEm) {
+          captionEm.classList.add('me-bio-photo-caption')
+          imgParagraph.appendChild(captionEm)
+          captionParagraph?.remove()
         }
-
-        photoIndex += 1
       })
     })
   }, [])

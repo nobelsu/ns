@@ -1436,16 +1436,16 @@ body.nav-collapsed .page {
   font-size: 15px;
 }
 
-/* Bio images + captions */
 /* Bio images + captions
-   NOTE: We support both modern :has() and JS-added classes (.me-bio-photo*)
-   so that layout works reliably on mobile Safari and older browsers. */
+   Captions in `bio.md` are written as `_caption_` which renders as <em>.
+   On the /me page, we move that <em> into the image paragraph via JS so
+   the caption can sit *under* the image on all breakpoints/browsers. */
 .me-bio-markdown p:has(> img),
 .me-bio-photo {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  gap: 20px;
+  gap: 10px;
   margin: 32px 0;
 }
 
@@ -1460,34 +1460,15 @@ body.nav-collapsed .page {
   object-fit: cover;
 }
 
-.me-bio-markdown p:has(> img) em,
-.me-bio-photo-caption {
+.me-bio-photo-caption,
+.me-bio-markdown p:has(> img) em {
   display: block;
   font-size: 13px;
   color: var(--text-muted);
   line-height: 1.6;
-  max-width: 380px;
-}
-
-/* Alternate image / caption sides
-   Count paragraphs so extra text blocks still participate in the sequence.
-   Also support JS-added classes so this works even where :has() is unsupported. */
-.me-bio-markdown p:has(> img):nth-of-type(odd),
-.me-bio-photo-right {
-  flex-direction: row-reverse; /* image right, text left */
-}
-
-.me-bio-markdown p:has(> img):nth-of-type(even),
-.me-bio-photo-left {
-  flex-direction: row; /* image left, text right */
-}
-
-.me-bio-photo-left-text {
-  text-align: left;
-}
-
-.me-bio-photo-right-text {
-  text-align: right;
+  max-width: 320px;
+  font-style: italic;
+  text-align: center;
 }
 
 /* Interests card grid */
