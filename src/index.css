@@ -797,6 +797,21 @@ a:hover {
     font-size: 10px;
   }
 
+  /* intro title must fit a narrow viewport, and center from the true origin
+     (the corner rule shifts left/top by 20px, which would offset the centering) */
+  .site.is-intro .site-header {
+    top: 0;
+    left: 0;
+  }
+
+  .site.is-intro .site-name {
+    font-size: 34px;
+  }
+
+  .site.is-intro .site-sub {
+    font-size: 11px;
+  }
+
   .site-hint,
   .site-footer {
     display: none;

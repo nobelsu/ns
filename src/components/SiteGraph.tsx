@@ -433,10 +433,19 @@ export default function SiteGraph({ selectedId, panelOpen, onSelect }: SiteGraph
       ctx.restore()
     }
 
-    // Region available for the graph (left of the panel on desktop)
+    // Region available for the graph. Desktop: left of the side panel.
+    // Mobile: the strip above the bottom sheet (below the header) when a panel is open.
     const availRegion = () => {
+      const mobile = window.innerWidth <= 900
       const margin = Math.min(70, w * 0.08, h * 0.08)
-      const panelW = window.innerWidth > 900 && panelOpenRef.current ? Math.min(552, w * 0.45) : 0
+      const panelOpen = panelOpenRef.current
+      if (mobile) {
+        const headerPad = 84
+        // bottom sheet covers 76vh; keep the graph in the visible top strip
+        const availH = panelOpen ? Math.max(150, h * 0.24 - headerPad) : h - headerPad - margin
+        return { x: margin, y: headerPad, w: Math.max(120, w - margin * 2), h: availH }
+      }
+      const panelW = panelOpen ? Math.min(552, w * 0.45) : 0
       return {
         x: margin,
         y: margin,
@@ -445,12 +454,15 @@ export default function SiteGraph({ selectedId, panelOpen, onSelect }: SiteGraph
       }
     }
 
-    // Camera: zoom onto the selected node, otherwise fit the whole graph
+    // Camera: zoom onto the selected node, otherwise fit the whole graph.
+    // On mobile the bottom sheet covers most of the screen, so skip the focus
+    // zoom (it just collides with the header) and keep the whole graph framed.
     const updateCamera = () => {
       if (userView) return
       const r = availRegion()
+      const mobile = window.innerWidth <= 900
       const sel = selectedRef.current
-      const focus = sel ? byId.get(sel) : undefined
+      const focus = !mobile && sel ? byId.get(sel) : undefined
 
       let targetK: number, targetTx: number, targetTy: number
       if (focus) {
