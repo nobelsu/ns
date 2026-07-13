@@ -545,6 +545,10 @@ export default function SiteGraph({ selectedId, panelOpen, onSelect }: SiteGraph
     }
 
     let downX = 0, downY = 0, moved = false, slop = 25
+    // Touch fires emulated mouse events ~300ms later; ignore mouse right after touch
+    // (otherwise the emulated tap lands on empty space post-refit and deselects).
+    let lastTouchAt = -1e9
+    const sinceTouch = () => performance.now() - lastTouchAt
 
     const pointerDown = (sx: number, sy: number, pad: number, slopPx: number) => {
       downX = sx; downY = sy; moved = false; slop = slopPx * slopPx
@@ -571,10 +575,12 @@ export default function SiteGraph({ selectedId, panelOpen, onSelect }: SiteGraph
     let lastX = 0, lastY = 0
 
     const onMouseDown = (e: MouseEvent) => {
+      if (sinceTouch() < 700) return
       lastX = e.clientX; lastY = e.clientY
       pointerDown(e.clientX, e.clientY, 9, 5)
     }
     const onMouseMove = (e: MouseEvent) => {
+      if (sinceTouch() < 700) return
       const sx = e.clientX, sy = e.clientY
       if ((sx - downX) ** 2 + (sy - downY) ** 2 > slop) moved = true
       if (dragging) {
@@ -591,6 +597,7 @@ export default function SiteGraph({ selectedId, panelOpen, onSelect }: SiteGraph
       lastX = sx; lastY = sy
     }
     const onMouseUp = () => {
+      if (sinceTouch() < 700) return
       if (dragging) {
         if (!moved) {
           const n = dragging
@@ -620,6 +627,7 @@ export default function SiteGraph({ selectedId, panelOpen, onSelect }: SiteGraph
     // Touch: 1 finger drag/pan, 2 finger pinch
     let pinchDist = 0
     const onTouchStart = (e: TouchEvent) => {
+      lastTouchAt = performance.now()
       if (e.touches.length === 1) {
         const t = e.touches[0]
         lastX = t.clientX; lastY = t.clientY
@@ -632,6 +640,7 @@ export default function SiteGraph({ selectedId, panelOpen, onSelect }: SiteGraph
       }
     }
     const onTouchMove = (e: TouchEvent) => {
+      lastTouchAt = performance.now()
       e.preventDefault()
       if (e.touches.length === 1) {
         const t = e.touches[0]
@@ -661,8 +670,18 @@ export default function SiteGraph({ selectedId, panelOpen, onSelect }: SiteGraph
       }
     }
     const onTouchEnd = (e: TouchEvent) => {
+      lastTouchAt = performance.now()
       if (e.touches.length === 0) {
-        onMouseUp()
+        // run mouseup logic directly (guarded onMouseUp would bail during touch window)
+        if (dragging) {
+          if (!moved) onSelectRef.current(dragging.id === selectedRef.current ? null : dragging)
+          dragging.pinned = false
+          dragging = null
+          alpha = Math.max(alpha, 0.25)
+        } else if (panning && !moved) {
+          onSelectRef.current(null)
+        }
+        panning = false
         pinchDist = 0
       }
     }
