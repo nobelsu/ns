@@ -122,8 +122,12 @@ a:hover {
 /* ── Intro state ─────────────────────────────────────────────────────────── */
 
 .site.is-intro .site-header {
-  /* center the header block in the viewport */
-  transform: translate(calc(50vw - 50%), calc(50vh - 50%));
+  /* full-width centering — robust regardless of content/viewport width */
+  top: 0;
+  left: 0;
+  width: 100vw;
+  padding: 0 20px;
+  transform: translateY(calc(50dvh - 50%));
   align-items: center;
   text-align: center;
 }
@@ -137,6 +141,12 @@ a:hover {
 }
 
 .site.is-intro .site-enter {
+  /* out of flow so it doesn't pull the name+subtitle above center */
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  margin-top: 26px;
   opacity: 1;
   animation: enter-pulse 2.4s ease-in-out 0.9s infinite;
 }
@@ -785,8 +795,10 @@ a:hover {
 
 @media (max-width: 900px) {
   .site-header {
-    top: 20px;
+    top: 22px;
     left: 20px;
+    /* top/left already position the corner — drop the desktop translate offset */
+    transform: none;
   }
 
   .site-name {
