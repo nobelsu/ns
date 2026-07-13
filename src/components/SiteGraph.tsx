@@ -531,22 +531,24 @@ export default function SiteGraph({ selectedId, panelOpen, onSelect }: SiteGraph
 
     const toWorld = (sx: number, sy: number) => ({ x: (sx - tx) / k, y: (sy - ty) / k })
 
-    const hitTest = (sx: number, sy: number) => {
-      const { x, y } = toWorld(sx, sy)
+    // Hit-test in SCREEN space so the tap target is a constant pixel size at any
+    // zoom (`pad` is extra px around the node — larger for touch).
+    const hitTest = (sx: number, sy: number, pad: number) => {
       for (let i = nodes.length - 1; i >= 0; i--) {
         const n = nodes[i]
-        const r = n.r + 9
-        const dx = n.x - x, dy = n.y - y
+        const nx = n.x * k + tx, ny = n.y * k + ty
+        const r = n.r * k + pad
+        const dx = nx - sx, dy = ny - sy
         if (dx * dx + dy * dy < r * r) return n
       }
       return null
     }
 
-    let downX = 0, downY = 0, moved = false
+    let downX = 0, downY = 0, moved = false, slop = 25
 
-    const pointerDown = (sx: number, sy: number) => {
-      downX = sx; downY = sy; moved = false
-      const n = hitTest(sx, sy)
+    const pointerDown = (sx: number, sy: number, pad: number, slopPx: number) => {
+      downX = sx; downY = sy; moved = false; slop = slopPx * slopPx
+      const n = hitTest(sx, sy, pad)
       if (n) {
         dragging = n
         n.pinned = true
@@ -570,11 +572,11 @@ export default function SiteGraph({ selectedId, panelOpen, onSelect }: SiteGraph
 
     const onMouseDown = (e: MouseEvent) => {
       lastX = e.clientX; lastY = e.clientY
-      pointerDown(e.clientX, e.clientY)
+      pointerDown(e.clientX, e.clientY, 9, 5)
     }
     const onMouseMove = (e: MouseEvent) => {
       const sx = e.clientX, sy = e.clientY
-      if ((sx - downX) ** 2 + (sy - downY) ** 2 > 25) moved = true
+      if ((sx - downX) ** 2 + (sy - downY) ** 2 > slop) moved = true
       if (dragging) {
         pointerMove(sx, sy)
       } else if (panning) {
@@ -582,7 +584,7 @@ export default function SiteGraph({ selectedId, panelOpen, onSelect }: SiteGraph
         tx += sx - lastX
         ty += sy - lastY
       } else {
-        const n = hitTest(sx, sy)
+        const n = hitTest(sx, sy, 9)
         hoveredId = n?.id ?? null
         canvas.style.cursor = n ? 'pointer' : 'default'
       }
@@ -621,7 +623,7 @@ export default function SiteGraph({ selectedId, panelOpen, onSelect }: SiteGraph
       if (e.touches.length === 1) {
         const t = e.touches[0]
         lastX = t.clientX; lastY = t.clientY
-        pointerDown(t.clientX, t.clientY)
+        pointerDown(t.clientX, t.clientY, 22, 12) // bigger tap target + slop for fingers
       } else if (e.touches.length === 2) {
         if (dragging) { dragging.pinned = false; dragging = null }
         panning = false
@@ -634,7 +636,7 @@ export default function SiteGraph({ selectedId, panelOpen, onSelect }: SiteGraph
       if (e.touches.length === 1) {
         const t = e.touches[0]
         const sx = t.clientX, sy = t.clientY
-        if ((sx - downX) ** 2 + (sy - downY) ** 2 > 25) moved = true
+        if ((sx - downX) ** 2 + (sy - downY) ** 2 > slop) moved = true
         if (dragging) {
           pointerMove(sx, sy)
         } else if (panning) {
